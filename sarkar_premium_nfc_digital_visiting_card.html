@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SARKAR | Premium NFC Digital Visiting Card</title>
+  
+  <!-- Tailwind CSS v3.4.17 -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sarkar: {
+              black: '#070709',
+              dark: '#0e0e12',
+              charcoal: '#17171d',
+              card: 'rgba(18, 18, 24, 0.78)',
+              gold: '#d4af37',
+              goldLight: '#f6e27a',
+              goldDark: '#aa771c',
+              goldMuted: 'rgba(212, 175, 55, 0.35)',
+              silver: '#e2e8f0',
+              silverMuted: 'rgba(226, 232, 240, 0.3)'
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Playfair Display', 'Georgia', 'serif'],
+            sans: ['Plus Jakarta Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cinzel (Luxury Serif) & Plus Jakarta Sans (Clean Modern Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom Luxury Styling & Animations */
+    :root {
+      --gold-primary: #d4af37;
+      --gold-bright: #fbf5b7;
+      --gold-dark: #aa771c;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #060608;
+      color: #f3f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Metallic Gold Text Gradient */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #d4af37 0%, #fef3c7 28%, #b38728 65%, #fbf5b7 85%, #aa771c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .silver-gradient-text {
+      background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 50%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Luxury Gold Border Glow */
+    .gold-border {
+      border: 1px solid rgba(212, 175, 55, 0.24);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.05), inset 0 0 15px rgba(212, 175, 55, 0.03);
+    }
+
+    .gold-border-interactive {
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gold-border-interactive:hover, .gold-border-interactive:active {
+      border-color: rgba(212, 175, 55, 0.6);
+      box-shadow: 0 8px 25px -4px rgba(212, 175, 55, 0.2), 0 0 15px rgba(212, 175, 55, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Card Glassmorphic Specular Highlight */
+    .luxury-card {
+      background: linear-gradient(160deg, rgba(23, 23, 30, 0.88) 0%, rgba(12, 12, 16, 0.96) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 
+        0 30px 70px -15px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(212, 175, 55, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(212, 175, 55, 0.02);
+    }
+
+    /* SARKAR Opening Cinematic Animation Styles */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #050507;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s;
+    }
+
+    .intro-sarkar-title {
+      opacity: 0;
+      transform: scale(0.92);
+      letter-spacing: 0.45em;
+      filter: blur(8px);
+      animation: sarkarCinematicIn 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .intro-sub-line {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: sublineReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    }
+
+    .intro-divider {
+      width: 0;
+      animation: dividerExpand 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+
+    @keyframes sarkarCinematicIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.90);
+        filter: blur(10px);
+        letter-spacing: 0.55em;
+      }
+      35% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+        letter-spacing: 0.42em;
+      }
+      80% {
+        opacity: 1;
+        transform: scale(1.02);
+        filter: blur(0px);
+        letter-spacing: 0.44em;
+      }
+      100% {
+        opacity: 0.95;
+        transform: scale(1.03);
+        filter: blur(0.5px);
+        letter-spacing: 0.45em;
+      }
+    }
+
+    @keyframes dividerExpand {
+      0% { width: 0; opacity: 0; }
+      100% { width: 140px; opacity: 0.6; }
+    }
+
+    @keyframes sublineReveal {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 0.8; transform: translateY(0); }
+    }
+
+    /* Soft Aura Glow Animation */
+    @keyframes goldPulse {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.08); }
+    }
+
+    .animate-gold-pulse {
+      animation: goldPulse 4s ease-in-out infinite;
+    }
+
+    /* Shimmer Sweep Effect */
+    .shimmer-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .shimmer-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.12) 48%,
+        rgba(255, 255, 255, 0.22) 50%,
+        rgba(255, 255, 255, 0.12) 52%,
+        transparent 65%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.8s ease;
+    }
+    .shimmer-btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    /* Accessibility: Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      .intro-sarkar-title, .intro-sub-line, .intro-divider {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      #intro-screen {
+        transition: opacity 0.2s linear !important;
+      }
+    }
+  </style>
+</head>
+<body class="relative flex flex-col items-center justify-start min-h-screen selection:bg-amber-500/20 selection:text-amber-200">
+
+  <!-- =========================================================================
+       1. SPECIAL NFC OPENING ANIMATION – "SARKAR"
+       Meets all strict timing and aesthetic requirements:
+       - Full-screen dark background
+       - "SARKAR" in exact center with grand serif typography & subtle letter spacing
+       - Smooth fade in, stays visible ~2s, smooth fade out while card fades in
+       ========================================================================= -->
+  <div id="intro-screen" aria-label="Introductory Animation" role="status">
+    <!-- Ambient Golden Backlight Aura -->
+    <div class="absolute w-80 h-80 rounded-full bg-gradient-to-tr from-amber-600/15 via-yellow-500/20 to-transparent blur-3xl pointer-events-none animate-gold-pulse"></div>
+
+    <div class="relative flex flex-col items-center text-center px-6">
+      <!-- Monogram Initial Icon -->
+      <div class="w-10 h-10 mb-6 rounded-full border border-amber-500/30 flex items-center justify-center bg-black/60 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+        <span class="font-serif text-amber-300 text-sm tracking-widest font-semibold">S</span>
+      </div>
+
+      <!-- SARKAR Wordmark -->
+      <h1 class="intro-sarkar-title font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.45em] gold-gradient-text uppercase select-none drop-shadow-[0_10px_25px_rgba(212,175,55,0.25)] pl-[0.45em]">
+        SARKAR
+      </h1>
+
+      <!-- Hairline divider -->
+      <div class="intro-divider h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-transparent my-5"></div>
+
+      <!-- Tagline / Subtitle -->
+      <p class="intro-sub-line text-[11px] sm:text-xs font-light tracking-[0.35em] uppercase text-amber-200/70 select-none pl-[0.35em]">
+        NFC Digital Identity
+      </p>
+
+      <!-- Discreet Instant Skip Button for Returning Visitors -->
+      <button id="skip-intro-btn" class="mt-14 px-4 py-1.5 rounded-full text-[10px] tracking-widest uppercase text-neutral-400 hover:text-amber-300 bg-white/5 border border-white/10 hover:border-amber-400/40 transition-all opacity-70 hover:opacity-100">
+        Skip Intro &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- Background Ambient Canvas for Floating Luxury Gold Dust -->
+  <canvas id="ambient-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-60"></canvas>
+
+  <!-- Background Radial Glow Accents -->
+  <div class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-radial from-amber-500/10 via-amber-700/5 to-transparent blur-[120px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-[-15%] left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-radial from-amber-600/8 via-neutral-900/10 to-transparent blur-[140px] pointer-events-none z-0"></div>
+
+  <!-- =========================================================================
+       2. TOP BAR & QUICK ACTIONS (Replay, Share, Live Customizer)
+       ========================================================================= -->
+  <header class="relative z-10 w-full max-w-md px-4 pt-6 pb-2 flex items-center justify-between text-xs text-neutral-400">
+    <!-- NFC Status Pill -->
+    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/80 border border-amber-500/20 backdrop-blur-md shadow-sm">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
+      </span>
+      <span class="font-medium tracking-wider text-[11px] text-amber-200/90 uppercase">NFC Identity Verified</span>
+    </div>
+
+    <!-- Right Controls: Replay Intro & Share Modal -->
+    <div class="flex items-center gap-2">
+      <!-- Replay Animation Button -->
+      <button id="replay-intro-btn" title="Replay Opening SARKAR Animation" class="flex items-center justify-center w-8 h-8 rounded-full bg-neutral-900/80 border border-neutral-700 hover:border-amber-400/60 text-neutral-300 hover:text-amber-300 transition-all shadow-sm">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+      </button>
+
+      <!-- Share Card Modal Button -->
+      <button id="share-card-btn" title="Share or Scan NFC Card" class="flex items-center justify-center w-8 h-8 rounded-full bg-neutral-900/80 border border-neutral-700 hover:border-amber-400/60 text-neutral-300 hover:text-amber-300 transition-all shadow-sm">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       3. MAIN DIGITAL VISITING CARD CONTAINER
+       Contains all required placeholders clearly visible and easy to update:
+       - Full Name: [ENTER YOUR FULL NAME HERE]
+       - Designation: [ENTER YOUR DESIGNATION HERE]
+       - Short Description: [WRITE A SHORT PERSONAL DESCRIPTION HERE]
+       - Phone Number: [ENTER YOUR PHONE NUMBER HERE]
+       - Instagram: [ENTER YOUR INSTAGRAM PROFILE URL HERE]
+       - Snapchat: [ENTER YOUR SNAPCHAT PROFILE URL HERE]
+       ========================================================================= -->
+  <main class="relative z-10 w-full max-w-md px-4 py-4 flex-1 flex flex-col justify-center">
+    <div id="visiting-card" class="luxury-card gold-border rounded-3xl p-6 sm:p-8 relative overflow-hidden transition-all duration-500">
+      
+      <!-- Top Decorative Accent Lines & Watermark -->
+      <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400/60 to-transparent"></div>
+      <div class="absolute top-3 right-5 font-serif text-[10px] tracking-[0.25em] text-amber-500/30 uppercase select-none pointer-events-none">
+        SARKAR
+      </div>
+
+      <!-- A. Personal Identity Header & Monogram Emblem -->
+      <div class="flex flex-col items-center text-center">
+        <!-- Luxury Monogram Crest -->
+        <div class="relative mb-5 group">
+          <div class="w-24 h-24 rounded-full p-[2px] bg-gradient-to-tr from-amber-600/40 via-yellow-200/50 to-amber-700/30 shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+            <div class="w-full h-full rounded-full bg-gradient-to-b from-[#16161c] to-[#0a0a0e] flex flex-col items-center justify-center border border-amber-500/20 group-hover:border-amber-400/50 transition-colors">
+              <span class="font-serif text-3xl font-bold gold-gradient-text">S</span>
+              <span class="text-[8px] uppercase tracking-widest text-amber-400/60 mt-0.5">EST. 2026</span>
+            </div>
+          </div>
+          <!-- Subtle Outer Ring Glow -->
+          <div class="absolute -inset-1 rounded-full bg-amber-400/10 blur-sm pointer-events-none"></div>
+        </div>
+
+        <!-- Full Name: [ENTER YOUR FULL NAME HERE] -->
+        <h2 id="card-name" class="font-serif text-2xl sm:text-3xl font-semibold tracking-wide text-white drop-shadow-sm">
+          [ENTER YOUR FULL NAME HERE]
+        </h2>
+
+        <!-- Designation: [ENTER YOUR DESIGNATION HERE] -->
+        <div class="mt-2 flex items-center gap-2">
+          <span class="h-[1px] w-4 bg-amber-400/50"></span>
+          <p id="card-designation" class="text-xs sm:text-sm uppercase tracking-[0.22em] text-amber-300 font-medium">
+            [ENTER YOUR DESIGNATION HERE]
+          </p>
+          <span class="h-[1px] w-4 bg-amber-400/50"></span>
+        </div>
+
+        <!-- Short Description: [WRITE A SHORT PERSONAL DESCRIPTION HERE] -->
+        <p id="card-bio" class="mt-4 text-xs sm:text-sm text-neutral-300/80 font-light leading-relaxed max-w-xs px-2 text-center">
+          [WRITE A SHORT PERSONAL DESCRIPTION HERE]
+        </p>
+      </div>
+
+      <!-- Divider -->
+      <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent my-6"></div>
+
+      <!-- Quick Action: Save Contact (vCard .VCF Direct Download for NFC Taps) -->
+      <div class="mb-5">
+        <button id="save-contact-btn" class="shimmer-btn w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-400/25 to-yellow-600/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-amber-400/40 hover:border-amber-400/70 text-amber-100 font-medium text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 shadow-[0_8px_20px_-6px_rgba(212,175,55,0.25)] transition-all active:scale-[0.98]">
+          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <span>Save Contact Card (.vcf)</span>
+        </button>
+      </div>
+
+      <!-- B. Contact Information Section -->
+      <div class="space-y-3">
+        <span class="block text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-semibold pl-1">
+          Direct Contact
+        </span>
+
+        <!-- Phone & Direct Dialer Button -->
+        <div class="p-3.5 rounded-xl bg-neutral-900/60 gold-border-interactive flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-300 flex-shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">Telephone</p>
+              <p id="card-phone-display" class="text-xs sm:text-sm font-medium text-neutral-200 truncate">
+                [ENTER YOUR PHONE NUMBER HERE]
+              </p>
+            </div>
+          </div>
+
+          <!-- Professional Call Button that Opens Dialer -->
+          <a id="card-phone-btn" href="tel:[ENTER YOUR PHONE NUMBER HERE]" class="px-3.5 py-1.5 rounded-lg bg-neutral-800 hover:bg-amber-400 hover:text-black border border-neutral-700 hover:border-amber-300 text-xs text-neutral-200 font-medium transition-colors flex items-center gap-1.5 flex-shrink-0 shadow-sm">
+            <span>Call</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Optional WhatsApp Contact Button -->
+        <a id="card-whatsapp-btn" href="https://wa.me/[ENTER YOUR PHONE NUMBER HERE]" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-neutral-900/60 gold-border-interactive flex items-center justify-between gap-3 group">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0 group-hover:scale-105 transition-transform">
+              <!-- WhatsApp SVG Icon -->
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.277-.1-.478-.15-.679.15-.201.301-.78 0.978-.956 1.178-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.494-.895-.798-1.5-1.784-1.676-2.085-.175-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.201-.301.301-.502.101-.201.05-.377-.025-.527-.075-.15-.679-1.636-.93-2.244-.244-.593-.492-.513-.678-.522-.176-.009-.377-.01-.578-.01-.201 0-.527.075-.803.377-.276.301-1.055 1.03-1.055 2.512s1.08 2.914 1.231 3.115c.15.201 2.126 3.246 5.15 4.554.719.311 1.28.497 1.718.636.723.23 1.38.197 1.9.12.58-.087 1.78-.727 2.03-1.43.25-.703.25-1.305.176-1.43-.075-.125-.276-.201-.577-.351zM12.04 2C6.51 2 2.015 6.495 2.015 12.025c0 1.942.557 3.754 1.522 5.29L2 22l4.82-1.498c1.479.88 3.2 1.385 5.22 1.385 5.53 0 10.025-4.495 10.025-10.025C22.065 6.495 17.57 2 12.04 2z"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">WhatsApp</p>
+              <p class="text-xs sm:text-sm font-medium text-neutral-200 truncate">
+                Direct Chat / Inquiries
+              </p>
+            </div>
+          </div>
+          <span class="text-xs text-emerald-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+            Chat &rarr;
+          </span>
+        </a>
+      </div>
+
+      <!-- C. Social Media Links Section -->
+      <div class="mt-6 space-y-3">
+        <span class="block text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-semibold pl-1">
+          Social Networks
+        </span>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Instagram Button -->
+          <a id="card-instagram-btn" href="https://[ENTER YOUR INSTAGRAM PROFILE URL HERE]" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-neutral-900/60 gold-border-interactive flex items-center gap-3 group">
+            <div class="w-9 h-9 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 flex-shrink-0 group-hover:scale-105 transition-transform">
+              <!-- Official Instagram SVG Icon -->
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold text-neutral-200 group-hover:text-amber-200 transition-colors">Instagram</p>
+              <p class="text-[10px] text-neutral-400 truncate">Connect Profile &rarr;</p>
+            </div>
+          </a>
+
+          <!-- Snapchat Button -->
+          <a id="card-snapchat-btn" href="https://[ENTER YOUR SNAPCHAT PROFILE URL HERE]" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-neutral-900/60 gold-border-interactive flex items-center gap-3 group">
+            <div class="w-9 h-9 rounded-lg bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center text-yellow-300 flex-shrink-0 group-hover:scale-105 transition-transform">
+              <!-- Official Snapchat Ghost SVG Icon -->
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12.004 0C7.037 0 4.148 3.518 4.148 6.942c0 1.716.643 3.328 1.258 4.417.18.318.232.551.109.814-.148.318-.465.498-.773.668-.783.434-1.631.9-2.023 1.94-.37 1.006-.053 2.118.89 2.595 1.292.657 2.764.445 4.119.244.508-.074.964-.148 1.345.095.392.254.604.752.805 1.218.424.974.932 2.15 2.128 2.15.54 0 1.037-.148 1.493-.413.434-.254.805-.625 1.229-.625.423 0 .794.37 1.228.625.455.265.953.413 1.493.413 1.196 0 1.705-1.176 2.128-2.15.201-.466.413-.964.805-1.218.381-.243.837-.169 1.345-.095 1.355.201 2.827.413 4.119-.244.943-.477 1.26-1.589.89-2.595-.392-1.04-1.24-1.506-2.023-1.94-.308-.17-.625-.35-.773-.668-.123-.263-.071-.496.109-.814.615-1.089 1.258-2.701 1.258-4.417C19.86 3.518 16.971 0 12.004 0zm0 1.5c4.15 0 6.356 2.87 6.356 5.442 0 1.44-.561 2.86-1.09 3.792-.614 1.08-.244 1.832.328 2.15.657.36 1.409.773 1.705 1.557.19.519.043 1.08-.487 1.355-1.006.519-2.319.328-3.547.148-.826-.116-1.684-.243-2.457.265-.635.413-.921 1.09-1.26 1.864-.37.858-.752 1.427-1.048 1.427-.296 0-.678-.569-1.048-1.427-.339-.773-.625-1.451-1.26-1.864-.773-.508-1.631-.38-2.457-.265-1.228.18-2.541.37-3.547-.148-.53-.275-.677-.836-.487-1.355.296-.784 1.048-1.197 1.705-1.557.572-.318.942-1.07.328-2.15-.529-.932-1.09-2.352-1.09-3.792C5.648 4.37 7.854 1.5 12.004 1.5z"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold text-neutral-200 group-hover:text-amber-200 transition-colors">Snapchat</p>
+              <p class="text-[10px] text-neutral-400 truncate">Add on Snap &rarr;</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card Footer Subtle Branding -->
+      <div class="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] text-neutral-400 font-light">
+        <span class="tracking-widest uppercase">SARKAR IDENTITY</span>
+        <button id="open-config-btn" class="hover:text-amber-300 transition-colors underline underline-offset-2">
+          Edit Placeholders
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       4. SHARE CARD & NFC QR CODE MODAL
+       ========================================================================= -->
+  <div id="share-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="luxury-card gold-border w-full max-w-sm rounded-2xl p-6 relative">
+      <button id="close-share-btn" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center">
+        &times;
+      </button>
+
+      <div class="text-center">
+        <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 mx-auto flex items-center justify-center text-amber-300 mb-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+          </svg>
+        </div>
+        <h3 class="font-serif text-lg font-semibold text-white">Share SARKAR Card</h3>
+        <p class="text-xs text-neutral-400 mt-1">Scan or tap with any NFC-enabled smartphone</p>
+
+        <!-- Simulated Crisp Elegant QR Code -->
+        <div class="mt-5 p-4 rounded-xl bg-white mx-auto w-48 h-48 flex flex-col items-center justify-center shadow-lg">
+          <svg id="qr-svg" class="w-40 h-40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Distinct QR Pattern Matrix -->
+            <rect width="100" height="100" fill="white"/>
+            <!-- Top Left Finder Pattern -->
+            <rect x="5" y="5" width="28" height="28" rx="4" fill="#070709"/>
+            <rect x="9" y="9" width="20" height="20" rx="2" fill="white"/>
+            <rect x="13" y="13" width="12" height="12" rx="2" fill="#d4af37"/>
+            <!-- Top Right Finder Pattern -->
+            <rect x="67" y="5" width="28" height="28" rx="4" fill="#070709"/>
+            <rect x="71" y="9" width="20" height="20" rx="2" fill="white"/>
+            <rect x="75" y="13" width="12" height="12" rx="2" fill="#d4af37"/>
+            <!-- Bottom Left Finder Pattern -->
+            <rect x="5" y="67" width="28" height="28" rx="4" fill="#070709"/>
+            <rect x="9" y="71" width="20" height="20" rx="2" fill="white"/>
+            <rect x="13" y="75" width="12" height="12" rx="2" fill="#d4af37"/>
+            <!-- Center Branding Monogram -->
+            <rect x="42" y="42" width="16" height="16" rx="4" fill="#070709"/>
+            <text x="50" y="54" font-family="'Cinzel', serif" font-size="10" font-weight="bold" fill="#d4af37" text-anchor="middle">S</text>
+            <!-- Data Matrix Dots -->
+            <rect x="37" y="8" width="5" height="5" fill="#111"/>
+            <rect x="46" y="8" width="5" height="5" fill="#111"/>
+            <rect x="55" y="8" width="5" height="5" fill="#111"/>
+            <rect x="37" y="18" width="5" height="5" fill="#111"/>
+            <rect x="46" y="24" width="5" height="5" fill="#111"/>
+            <rect x="55" y="18" width="5" height="5" fill="#111"/>
+            <rect x="8" y="37" width="5" height="5" fill="#111"/>
+            <rect x="18" y="37" width="5" height="5" fill="#111"/>
+            <rect x="26" y="44" width="5" height="5" fill="#111"/>
+            <rect x="8" y="52" width="5" height="5" fill="#111"/>
+            <rect x="22" y="52" width="5" height="5" fill="#111"/>
+            <rect x="68" y="37" width="5" height="5" fill="#111"/>
+            <rect x="78" y="44" width="5" height="5" fill="#111"/>
+            <rect x="86" y="37" width="5" height="5" fill="#111"/>
+            <rect x="68" y="52" width="5" height="5" fill="#111"/>
+            <rect x="84" y="52" width="5" height="5" fill="#111"/>
+            <rect x="37" y="68" width="5" height="5" fill="#111"/>
+            <rect x="46" y="76" width="5" height="5" fill="#111"/>
+            <rect x="55" y="68" width="5" height="5" fill="#111"/>
+            <rect x="37" y="84" width="5" height="5" fill="#111"/>
+            <rect x="55" y="84" width="5" height="5" fill="#111"/>
+            <rect x="68" y="68" width="5" height="5" fill="#111"/>
+            <rect x="76" y="76" width="5" height="5" fill="#111"/>
+            <rect x="84" y="68" width="5" height="5" fill="#111"/>
+            <rect x="76" y="84" width="5" height="5" fill="#111"/>
+            <rect x="84" y="84" width="5" height="5" fill="#111"/>
+          </svg>
+        </div>
+
+        <div class="mt-5 flex gap-2">
+          <button id="copy-link-btn" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-semibold text-xs tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 shadow-md">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+            </svg>
+            <span id="copy-link-text">Copy NFC Link</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. INTERACTIVE LIVE CONFIGURATION DRAWER
+       Allows testing placeholder replacement live on the card
+       ========================================================================= -->
+  <div id="config-drawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="luxury-card gold-border w-full max-w-lg rounded-t-3xl sm:rounded-2xl p-6 max-h-[90vh] overflow-y-auto relative">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div>
+          <h3 class="font-serif text-lg font-semibold text-white flex items-center gap-2">
+            <span class="gold-gradient-text">SARKAR</span>
+            <span>Card Configuration</span>
+          </h3>
+          <p class="text-[11px] text-neutral-400">Update placeholders below to test live or copy your customized code.</p>
+        </div>
+        <button id="close-config-btn" class="w-8 h-8 rounded-full bg-neutral-800 text-neutral-300 hover:text-white flex items-center justify-center">
+          &times;
+        </button>
+      </div>
+
+      <form id="config-form" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Full Name</label>
+          <input type="text" id="input-fullName" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans" value="[ENTER YOUR FULL NAME HERE]">
+        </div>
+
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Professional Designation / Title</label>
+          <input type="text" id="input-designation" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans" value="[ENTER YOUR DESIGNATION HERE]">
+        </div>
+
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Short Description / Bio</label>
+          <textarea id="input-bio" rows="2" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans">[WRITE A SHORT PERSONAL DESCRIPTION HERE]</textarea>
+        </div>
+
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Phone Number (Direct Dialer)</label>
+          <input type="text" id="input-phoneNumber" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans" value="[ENTER YOUR PHONE NUMBER HERE]">
+        </div>
+
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Instagram Profile URL</label>
+          <input type="text" id="input-instagramUrl" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans" value="[ENTER YOUR INSTAGRAM PROFILE URL HERE]">
+        </div>
+
+        <div>
+          <label class="block text-neutral-300 font-medium mb-1">Snapchat Profile URL</label>
+          <input type="text" id="input-snapchatUrl" class="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 focus:border-amber-400 text-white outline-none font-sans" value="[ENTER YOUR SNAPCHAT PROFILE URL HERE]">
+        </div>
+
+        <div class="pt-3 flex gap-3">
+          <button type="submit" class="flex-1 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-semibold uppercase tracking-wider transition-colors shadow-md">
+            Update Card Live
+          </button>
+          <button type="button" id="reset-placeholders-btn" class="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors">
+            Reset Placeholders
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 z-50 max-w-sm px-4 py-2.5 rounded-xl bg-neutral-900/95 border border-amber-400/40 text-neutral-200 text-xs shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 flex items-center gap-2">
+    <span class="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0"></span>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <!-- =========================================================================
+       6. JAVASCRIPT MASTER CONFIGURATION & LOGIC
+       Easily customize your visiting card by changing SARKAR_CONFIG values.
+       ========================================================================= -->
+  <script>
+    /* ==========================================================================
+       SARKAR MASTER CONFIGURATION
+       To permanently customize your NFC card, update these 6 values:
+       ========================================================================== */
+    const SARKAR_CONFIG = {
+      fullName: "[ENTER YOUR FULL NAME HERE]",
+      designation: "[ENTER YOUR DESIGNATION HERE]",
+      bio: "[WRITE A SHORT PERSONAL DESCRIPTION HERE]",
+      phoneNumber: "[ENTER YOUR PHONE NUMBER HERE]",
+      instagramUrl: "[ENTER YOUR INSTAGRAM PROFILE URL HERE]",
+      snapchatUrl: "[ENTER YOUR SNAPCHAT PROFILE URL HERE]"
+    };
+
+    /* App State */
+    let currentConfig = { ...SARKAR_CONFIG };
+    let introTimer = null;
+
+    /* DOM Elements */
+    const introScreen = document.getElementById('intro-screen');
+    const skipIntroBtn = document.getElementById('skip-intro-btn');
+    const replayIntroBtn = document.getElementById('replay-intro-btn');
+    const shareCardBtn = document.getElementById('share-card-btn');
+    const shareModal = document.getElementById('share-modal');
+    const closeShareBtn = document.getElementById('close-share-btn');
+    const copyLinkBtn = document.getElementById('copy-link-btn');
+    const copyLinkText = document.getElementById('copy-link-text');
+    const saveContactBtn = document.getElementById('save-contact-btn');
+    const openConfigBtn = document.getElementById('open-config-btn');
+    const closeConfigBtn = document.getElementById('close-config-btn');
+    const configDrawer = document.getElementById('config-drawer');
+    const configForm = document.getElementById('config-form');
+    const resetPlaceholdersBtn = document.getElementById('reset-placeholders-btn');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+
+    const phoneBtn = document.getElementById('card-phone-btn');
+    const waBtn = document.getElementById('card-whatsapp-btn');
+    const igBtn = document.getElementById('card-instagram-btn');
+    const snapBtn = document.getElementById('card-snapchat-btn');
+
+    /* Sync Card Elements with Configuration */
+    function renderCard(config) {
+      document.getElementById('card-name').textContent = config.fullName;
+      document.getElementById('card-designation').textContent = config.designation;
+      document.getElementById('card-bio').textContent = config.bio;
+      document.getElementById('card-phone-display').textContent = config.phoneNumber;
+
+      // Telephone button
+      const phoneClean = config.phoneNumber.replace(/[^\d+]/g, '');
+      phoneBtn.href = phoneClean ? `tel:${phoneClean}` : `tel:${config.phoneNumber}`;
+
+      // WhatsApp button
+      waBtn.href = phoneClean ? `https://wa.me/${phoneClean}` : `https://wa.me/${encodeURIComponent(config.phoneNumber)}`;
+
+      // Social Links
+      igBtn.href = config.instagramUrl.startsWith('http') ? config.instagramUrl : (config.instagramUrl.startsWith('@') ? `https://instagram.com/${config.instagramUrl.slice(1)}` : `https://${config.instagramUrl}`);
+
+      snapBtn.href = config.snapchatUrl.startsWith('http') ? config.snapchatUrl : (config.snapchatUrl.startsWith('@') ? `https://snapchat.com/add/${config.snapchatUrl.slice(1)}` : `https://${config.snapchatUrl}`);
+
+      // Sync form inputs if config drawer is opened
+      document.getElementById('input-fullName').value = config.fullName;
+      document.getElementById('input-designation').value = config.designation;
+      document.getElementById('input-bio').value = config.bio;
+      document.getElementById('input-phoneNumber').value = config.phoneNumber;
+      document.getElementById('input-instagramUrl').value = config.instagramUrl;
+      document.getElementById('input-snapchatUrl').value = config.snapchatUrl;
+    }
+
+    /* Cinematic NFC Opening Animation Controller */
+    function playSarkarIntro() {
+      if (introTimer) clearTimeout(introTimer);
+
+      introScreen.style.display = 'flex';
+      introScreen.style.visibility = 'visible';
+      introScreen.style.opacity = '1';
+
+      // Check if user prefers reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const displayDuration = prefersReducedMotion ? 500 : 2200; // ~2 seconds visible
+
+      introTimer = setTimeout(() => {
+        dismissIntro();
+      }, displayDuration);
+    }
+
+    function dismissIntro() {
+      introScreen.style.opacity = '0';
+      setTimeout(() => {
+        introScreen.style.display = 'none';
+        introScreen.style.visibility = 'hidden';
+      }, 850);
+    }
+
+    /* Toast Notification Helper */
+    function showToast(msg) {
+      toastMessage.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+      }, 2800);
+    }
+
+    /* vCard (.vcf) Generator for NFC Taps */
+    function downloadVCard() {
+      const name = currentConfig.fullName !== "[ENTER YOUR FULL NAME HERE]" ? currentConfig.fullName : "SARKAR Card Contact";
+      const title = currentConfig.designation !== "[ENTER YOUR DESIGNATION HERE]" ? currentConfig.designation : "";
+      const phone = currentConfig.phoneNumber !== "[ENTER YOUR PHONE NUMBER HERE]" ? currentConfig.phoneNumber : "";
+      const bio = currentConfig.bio !== "[WRITE A SHORT PERSONAL DESCRIPTION HERE]" ? currentConfig.bio : "";
+
+      const vcardData = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${name}`,
+        `N:${name};;;;`,
+        title ? `TITLE:${title}` : '',
+        phone ? `TEL;TYPE=CELL,VOICE:${phone}` : '',
+        bio ? `NOTE:${bio}` : '',
+        `URL:${window.location.href}`,
+        'END:VCARD'
+      ].filter(Boolean).join('\r\n');
+
+      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${name.replace(/\s+/g, '_')}.vcf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showToast("Contact card (.vcf) downloaded!");
+    }
+
+    /* Ambient Gold Stardust Canvas Background */
+    function initAmbientCanvas() {
+      const canvas = document.getElementById('ambient-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 1.6 + 0.4;
+          this.speedY = -(Math.random() * 0.4 + 0.1);
+          this.speedX = (Math.random() - 0.5) * 0.2;
+          this.opacity = Math.random() * 0.6 + 0.15;
+          this.pulse = Math.random() * 0.02 + 0.005;
+        }
+        update() {
+          this.y += this.speedY;
+          this.x += this.speedX;
+          this.opacity += Math.sin(Date.now() * this.pulse) * 0.008;
+
+          if (this.y < 0 || this.x < 0 || this.x > width) {
+            this.reset();
+            this.y = height + 10;
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(212, 175, 55, ${Math.max(0.05, Math.min(0.8, this.opacity))})`;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = 'rgba(212, 175, 55, 0.4)';
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 35; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    /* Interactive 3D Card Hover / Tilt Effect */
+    function initCardTilt() {
+      const card = document.getElementById('visiting-card');
+      if (!card) return;
+
+      document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return; // Only on desktop
+        const rect = card.getBoundingClientRect();
+        const cardX = rect.left + rect.width / 2;
+        const cardY = rect.top + rect.height / 2;
+        const deltaX = (e.clientX - cardX) / (rect.width / 2);
+        const deltaY = (e.clientY - cardY) / (rect.height / 2);
+
+        // Subtle tilt: max 3.5 degrees
+        if (Math.abs(deltaX) < 1.5 && Math.abs(deltaY) < 1.5) {
+          card.style.transform = `perspective(1000px) rotateY(${deltaX * 3.5}deg) rotateX(${-deltaY * 3.5}deg)`;
+        } else {
+          card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+      });
+    }
+
+    /* Event Listeners Initialization */
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initial Render
+      renderCard(currentConfig);
+
+      // 2. Play SARKAR opening sequence
+      playSarkarIntro();
+
+      // 3. Initialize background particles & 3D tilt
+      initAmbientCanvas();
+      initCardTilt();
+
+      // 4. Skip intro button
+      skipIntroBtn.addEventListener('click', dismissIntro);
+
+      // 5. Replay intro button
+      replayIntroBtn.addEventListener('click', () => {
+        playSarkarIntro();
+      });
+
+      // 6. Save Contact / vCard
+      saveContactBtn.addEventListener('click', downloadVCard);
+
+      // 7. Interactive feedback on placeholder clicks
+      phoneBtn.addEventListener('click', (e) => {
+        if (currentConfig.phoneNumber.includes('[ENTER YOUR')) {
+          e.preventDefault();
+          showToast('Please set your phone number in the configuration.');
+        }
+      });
+
+      waBtn.addEventListener('click', (e) => {
+        if (currentConfig.phoneNumber.includes('[ENTER YOUR')) {
+          e.preventDefault();
+          showToast('Please set your phone number to enable WhatsApp chat.');
+        }
+      });
+
+      igBtn.addEventListener('click', (e) => {
+        if (currentConfig.instagramUrl.includes('[ENTER YOUR')) {
+          e.preventDefault();
+          showToast('Please set your Instagram URL in the configuration.');
+        }
+      });
+
+      snapBtn.addEventListener('click', (e) => {
+        if (currentConfig.snapchatUrl.includes('[ENTER YOUR')) {
+          e.preventDefault();
+          showToast('Please set your Snapchat URL in the configuration.');
+        }
+      });
+
+      // 8. Share Modal Controls
+      shareCardBtn.addEventListener('click', () => {
+        shareModal.classList.remove('hidden');
+        shareModal.classList.add('flex');
+      });
+
+      closeShareBtn.addEventListener('click', () => {
+        shareModal.classList.add('hidden');
+        shareModal.classList.remove('flex');
+      });
+
+      shareModal.addEventListener('click', (e) => {
+        if (e.target === shareModal) {
+          shareModal.classList.add('hidden');
+          shareModal.classList.remove('flex');
+        }
+      });
+
+      // 9. Copy NFC Link Button
+      copyLinkBtn.addEventListener('click', () => {
+        const urlToCopy = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(urlToCopy).then(() => {
+            copyLinkText.textContent = "Copied to Clipboard!";
+            showToast("NFC Card URL copied to clipboard!");
+            setTimeout(() => { copyLinkText.textContent = "Copy NFC Link"; }, 2000);
+          }).catch(() => {
+            fallbackCopy(urlToCopy);
+          });
+        } else {
+          fallbackCopy(urlToCopy);
+        }
+      });
+
+      function fallbackCopy(text) {
+        const input = document.createElement('input');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        try {
+          document.execCommand('copy');
+          copyLinkText.textContent = "Copied!";
+          showToast("NFC Card URL copied!");
+          setTimeout(() => { copyLinkText.textContent = "Copy NFC Link"; }, 2000);
+        } catch (err) {
+          showToast("Could not auto-copy. URL is: " + text);
+        }
+        document.body.removeChild(input);
+      }
+
+      // 10. Config Drawer Controls
+      openConfigBtn.addEventListener('click', () => {
+        configDrawer.classList.remove('hidden');
+        configDrawer.classList.add('flex');
+      });
+
+      closeConfigBtn.addEventListener('click', () => {
+        configDrawer.classList.add('hidden');
+        configDrawer.classList.remove('flex');
+      });
+
+      configDrawer.addEventListener('click', (e) => {
+        if (e.target === configDrawer) {
+          configDrawer.classList.add('hidden');
+          configDrawer.classList.remove('flex');
+        }
+      });
+
+      configForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        currentConfig.fullName = document.getElementById('input-fullName').value.trim() || "[ENTER YOUR FULL NAME HERE]";
+        currentConfig.designation = document.getElementById('input-designation').value.trim() || "[ENTER YOUR DESIGNATION HERE]";
+        currentConfig.bio = document.getElementById('input-bio').value.trim() || "[WRITE A SHORT PERSONAL DESCRIPTION HERE]";
+        currentConfig.phoneNumber = document.getElementById('input-phoneNumber').value.trim() || "[ENTER YOUR PHONE NUMBER HERE]";
+        currentConfig.instagramUrl = document.getElementById('input-instagramUrl').value.trim() || "[ENTER YOUR INSTAGRAM PROFILE URL HERE]";
+        currentConfig.snapchatUrl = document.getElementById('input-snapchatUrl').value.trim() || "[ENTER YOUR SNAPCHAT PROFILE URL HERE]";
+
+        renderCard(currentConfig);
+        configDrawer.classList.add('hidden');
+        configDrawer.classList.remove('flex');
+        showToast("Card updated successfully!");
+      });
+
+      resetPlaceholdersBtn.addEventListener('click', () => {
+        currentConfig = { ...SARKAR_CONFIG };
+        renderCard(currentConfig);
+        showToast("Placeholders reset to default.");
+      });
+    });
+  </script>
+</body>
+</html>
